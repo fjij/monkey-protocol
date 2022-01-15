@@ -27,26 +27,45 @@ contract MonkeyRegistry is ERC721 {
 
     Monkey[] private _monkeys;
 
-    MonkeyProtocol public monkeyProtocol;
+    MonkeyProtocol private _monkeyProtocol;
 
     modifier onlyProtocol {
-        require(monkeyProtocol.hasRole(PROTOCOL, msg.sender));
+        require(_monkeyProtocol.hasRole(PROTOCOL, msg.sender));
         _;
     }
 
+    uint256 private _monkeyLimit;
+    string private _baseUri;
+
     // CONSTRUCTOR
 
-    constructor(address monkeyProtocolAddress) ERC721("Monkey", "MPM") {
-        monkeyProtocol = MonkeyProtocol(monkeyProtocolAddress);
+    constructor(
+        address monkeyProtocolAddress,
+        string memory baseUri,
+        uint256 monkeyLimit
+    ) ERC721("Monkey", "MPM") {
+        _monkeyProtocol = MonkeyProtocol(monkeyProtocolAddress);
+        _baseUri = baseUri;
+        _monkeyLimit = monkeyLimit;
     }
 
     // ADOPT
 
     function adopt() external {
-        _tokenIds.increment();
         uint256 tokenId = _tokenIds.current();
         _mint(msg.sender, tokenId);
         _register(address(this), tokenId);
+        _tokenIds.increment();
+    }
+
+    function tokenURI(
+        uint256 tokenId
+    ) public view override returns (string memory) {
+        return super.tokenURI(tokenId % _monkeyLimit);
+    }
+
+    function _baseURI() internal view override returns (string memory) {
+        return _baseUri;
     }
 
     // REGISTER
@@ -69,11 +88,11 @@ contract MonkeyRegistry is ERC721 {
     }
 
     function _register(address sourceContract, uint256 tokenId) internal {
-        _monkeyIds.increment();
         uint256 monkeyId = _monkeyIds.current();
         _monkeys[monkeyId].sourceContract = IERC721(sourceContract);
         _monkeys[monkeyId].sourceTokenId = tokenId;
         emit MonkeyRegister(sourceContract, tokenId, monkeyId);
+        _monkeyIds.increment();
     }
 
     // QUERY DATA
