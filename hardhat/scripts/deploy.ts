@@ -12,7 +12,11 @@ async function main() {
 
   // MonkeyRegistry
   const MonkeyRegistry = await ethers.getContractFactory("MonkeyRegistry");
-  const monkeyRegistry = await MonkeyRegistry.deploy(monkeyProtocol.address);
+  const monkeyRegistry = await MonkeyRegistry.deploy(
+    monkeyProtocol.address,
+    "ifps://",
+    1
+  );
   await monkeyRegistry.deployed();
   console.log("MonkeyRegistry deployed to:", monkeyProtocol.address);
 
