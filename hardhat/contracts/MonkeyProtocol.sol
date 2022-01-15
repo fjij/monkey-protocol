@@ -10,8 +10,10 @@ contract MonkeyProtocol is ERC20, AccessControl {
     bytes32 public constant PROTOCOL = keccak256("PROTOCOL");
 
     constructor() ERC20("Banana", "MPB") {
-        _setupRole(OWNER, msg.sender);
+        _setRoleAdmin(OWNER, OWNER);
         _setRoleAdmin(PROTOCOL, OWNER);
+
+        _setupRole(OWNER, msg.sender);
     }
 
     function mint(address to, uint256 amount) external onlyRole(PROTOCOL) {
