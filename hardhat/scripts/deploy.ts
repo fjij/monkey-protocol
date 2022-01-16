@@ -1,4 +1,7 @@
 import { ethers } from "hardhat";
+import fs from "fs";
+import hardhat from "hardhat";
+import path from "path";
 
 export async function deploy(log: boolean = true) {
   const [owner] = await ethers.getSigners();
@@ -61,12 +64,23 @@ export async function deploy(log: boolean = true) {
   }
 }
 
-
 async function main() {
-  await deploy(true);
+  const {
+    monkeyActions,
+    monkeyRegistry,
+    monkeyProtocol
+  } = await deploy(true);
 
-
-
+  const data = JSON.stringify({
+    monkeyActions: monkeyActions.address,
+    monkeyRegistry: monkeyRegistry.address,
+    monkeyProtocol: monkeyProtocol.address,
+  }, null, 2);
+  const networkName = hardhat.network.name;
+  const filename = (networkName === "hardhat" || networkName === "localhost") ?
+    `${networkName}.json` :
+    `${networkName}-${Date.now()}.json`;
+  fs.writeFileSync(path.join(__dirname, "../../deployments", filename), data);
 }
 
 main().catch((error) => {

@@ -1,5 +1,11 @@
 {
   "name": "hardhat-project",
+  "license": "UNLICENSED",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "network": "npx hardhat node",
+    "deploy": "npx hardhat run scripts/deploy.ts --network localhost"
+  },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
     "@nomiclabs/hardhat-etherscan": "^2.1.3",
