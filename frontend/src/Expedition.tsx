@@ -4,8 +4,9 @@ import "./expedition.css";
 import { useState, useEffect } from "react";
 import { formatEther } from "ethers/lib/utils";
 
-interface HomeProps {
+interface ExpeditionProps {
   signer: Signer;
+  monkeyId: number;
 }
 
 interface LocationProps {
@@ -23,7 +24,7 @@ interface ExpeditionDetails {
   xp: BigNumber;
 }
 
-export default function Expedition({ signer }: HomeProps) {
+export default function Expedition({ signer }: ExpeditionProps) {
   const monkeyActions = useMonkeyActions(signer);
   const [expeditions, setExpeditions] = useState<ExpeditionDetails[]>();
   useEffect(() => {

@@ -3,6 +3,7 @@ import { Landing } from "./Landing";
 import Home from "./Home";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useStoredState } from "./hooks";
 import { Signer } from "ethers";
 import FullscreenMessage from "./FullscreenMessage";
 import Expedition from "./Expedition";
@@ -10,6 +11,7 @@ import Expedition from "./Expedition";
 function App() {
   const [signer, setSigner] = useState<Signer>();
   const [chainId, setChainId] = useState<number>();
+  const [monkeyId, setMonkeyId] = useStoredState<number>("monkeyId", 1);
 
   useEffect(() => {
     signer?.getChainId().then(setChainId);
@@ -29,8 +31,11 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/expedition">
+          <Expedition signer={signer} monkeyId={monkeyId}/>
+        </Route>
         <Route path="/">
-          <Expedition signer={signer} />
+          <Home signer={signer} monkeyId={monkeyId}/>
         </Route>
       </Switch>
     </Router>
