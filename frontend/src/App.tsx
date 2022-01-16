@@ -35,7 +35,7 @@ function App() {
           <Expedition signer={signer} monkeyId={monkeyId}/>
         </Route>
         <Route path="/">
-          <Home signer={signer} monkeyId={monkeyId}/>
+          <Home signer={signer} monkeyId={monkeyId} setMonkeyId={setMonkeyId}/>
         </Route>
       </Switch>
     </Router>

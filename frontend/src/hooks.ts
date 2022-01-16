@@ -110,6 +110,8 @@ export function useMonkey(monkeyId: number, signer: Signer) {
       setStats(undefined);
       setExpedition(undefined);
       setDaycare(undefined);
-    }
+    },
+    monkeyRegistry,
+    monkeyActions,
   };
 }
