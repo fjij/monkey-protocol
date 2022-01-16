@@ -1,0 +1,72 @@
+.daycare-title {
+  justify-content: center;
+  line-height: 25px;
+  display: flex;
+  background: #d8d8d8;
+  box-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  line-height: 25px;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  padding: 10px 40px 10px 40px;
+  background: #dcaf6b;
+  margin-bottom: 15px;
+  margin-top: 50px;
+}
+
+.daycare-wrapper {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.daycare-wrapper #monkey {
+  position: absolute;
+  width: 300px;
+  height: auto;
+  transform-origin: left;
+  transform: translate(-180px, 100px) rotate(270deg);
+}
+
+.daycare-wrapper #bed {
+  width: 400px;
+  height: auto;
+  position: relative;
+}
+
+.daycare-wrapper h3 {
+  background: #d8d8d8;
+  box-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
+  color: black;
+  padding: 10px 20px 10px 20px;
+}
+
+.daycare-stats {
+  margin-bottom: 50px;
+}
+
+.daycare-futures {
+  margin-top: 50px;
+  display: grid;
+  place-items: center;
+}
+
+.daycare-futures button {
+  text-align: center;
+  background-color: #5ea3f1;
+  border: black;
+  color: black;
+  padding: 13px 28px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition-duration: 0.3s;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+.daycare-futures button:hover {
+  background-color: #4985c9;
+}

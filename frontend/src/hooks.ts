@@ -1,7 +1,12 @@
 import { BigNumber, Signer } from "ethers";
-import {formatEther} from "ethers/lib/utils";
+import { formatEther } from "ethers/lib/utils";
 import { useEffect, useState } from "react";
-import { useMonkeyActions, useMonkeyProtocol, useMonkeyRegistry, useNft } from "./contracts";
+import {
+  useMonkeyActions,
+  useMonkeyProtocol,
+  useMonkeyRegistry,
+  useNft,
+} from "./contracts";
 
 export function useStoredState<T>(key: string, defaultValue: T) {
   const item = localStorage.getItem(key);
@@ -11,7 +16,7 @@ export function useStoredState<T>(key: string, defaultValue: T) {
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify({ value }));
-  }, [value])
+  }, [value]);
 
   return [value, setValue] as [T, React.Dispatch<React.SetStateAction<T>>];
 }
@@ -67,8 +72,8 @@ export function useMonkey(monkeyId: number, signer: Signer) {
   const [stats, setStats] = useState<MonkeyStats>();
   const [expedition, setExpedition] = useState<MonkeyExpedition>();
   const [daycare, setDaycare] = useState<MonkeyDaycare>();
-  const monkeyRegistry = useMonkeyRegistry(signer)
-  const monkeyActions = useMonkeyActions(signer)
+  const monkeyRegistry = useMonkeyRegistry(signer);
+  const monkeyActions = useMonkeyActions(signer);
   const nft = useNft(signer, monkey?.sourceContract, monkey?.sourceTokenId);
 
   useEffect(() => {
