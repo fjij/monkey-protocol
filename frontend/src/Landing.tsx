@@ -1,14 +1,13 @@
 import "./landing.css";
 import ConnectWallet from "./ConnectWallet";
-import { useMonkeyRegistry } from "./contracts";
-import { useEffect, useState } from "react";
 import { Signer } from "ethers";
 import LandingBackground from "./assets/landing.png";
 
-export function Landing() {
-  const [signer, setSigner] = useState<Signer>();
-  const registry = useMonkeyRegistry(signer);
+interface LandingProps {
+  onConnected: (signer: Signer) => void;
+}
 
+export function Landing({ onConnected }: LandingProps) {
   return (
     <>
       <div
@@ -24,11 +23,7 @@ export function Landing() {
             </h3>
           </div>
           <div className="buttons">
-            <ConnectWallet
-              onConnected={(signer) => {
-                setSigner(signer);
-              }}
-            />
+            <ConnectWallet onConnected={onConnected} />
           </div>
         </div>
       </div>
