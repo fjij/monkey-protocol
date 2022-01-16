@@ -1,0 +1,44 @@
+body {
+  background-image: url("./assets/landing.png");
+  background-size: auto;
+  background-repeat: no-repeat;
+}
+
+.title h1 {
+  margin-top: 500px;
+  font-size: 50px;
+  margin-bottom: 5px;
+}
+
+.title h3 {
+  font-size: 25px;
+  margin-top: 0px;
+  margin-bottom: 15px;
+}
+
+.title h1,
+h3 {
+  color: #e0e0e0;
+}
+
+.title {
+  margin-left: 100px;
+  margin-right: 40px;
+}
+
+.buttons button {
+  text-align: center;
+  background-color: #fbff00; /* Green */
+  border: black;
+  color: black;
+  padding: 13px 28px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition-duration: 0.3s;
+  border-radius: 8px;
+}
+
+.buttons button:hover {
+  background-color: #c2c500;
+}
