@@ -13,7 +13,7 @@ import type {
   IERC721Metadata,
 } from "../../../hardhat/typechain";
 
-import deployment from "../deployments/localhost.json";
+import deployment from "../deployments/rinkeby-1642348540283.json";
 import { resolveUri } from "../web3";
 import axios from "axios";
 

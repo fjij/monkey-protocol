@@ -24,9 +24,9 @@ function App() {
     return <Landing onConnected={setSigner} />;
   }
 
-  if (chainId !== 31337) {
+  if (chainId !== 4) {
     return (
-      <FullscreenMessage>Wrong Chain Id - Switch to 31337</FullscreenMessage>
+      <FullscreenMessage>Wrong Chain Id - Switch to 4 (Rinkeby)</FullscreenMessage>
     );
   }
 
