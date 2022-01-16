@@ -24,6 +24,7 @@ contract MonkeyRegistry is ERC721 {
     }
 
     mapping(uint256 => Monkey) private _monkeys;
+    mapping(address => mapping(uint256 => uint256)) private _reverseMonkeys;
 
     MonkeyProtocol private _monkeyProtocol;
 
@@ -49,11 +50,11 @@ contract MonkeyRegistry is ERC721 {
 
     // ADOPT
 
-    function adopt() external {
+    function adopt() external returns (uint256) {
         uint256 tokenId = _tokenIds.current();
-        _mint(msg.sender, tokenId);
-        _register(address(this), tokenId);
         _tokenIds.increment();
+        _mint(msg.sender, tokenId);
+        return _register(address(this), tokenId);
     }
 
     function tokenURI(
@@ -74,7 +75,10 @@ contract MonkeyRegistry is ERC721 {
         uint256 monkeyId
     );
 
-    function register(address sourceContract, uint256 tokenId) public {
+    function register(
+        address sourceContract,
+        uint256 tokenId
+    ) public returns (uint256) {
         require(IERC165(sourceContract).supportsInterface(
             type(IERC721).interfaceId
         ), "must support erc721");
@@ -82,21 +86,33 @@ contract MonkeyRegistry is ERC721 {
             IERC721(sourceContract).ownerOf(tokenId) == msg.sender
             || IERC721(sourceContract).getApproved(tokenId) == msg.sender
         , "must be approved or owner");
-        _register(sourceContract, tokenId);
+        return _register(sourceContract, tokenId);
     }
 
-    function _register(address sourceContract, uint256 tokenId) internal {
+    function _register(
+        address sourceContract,
+        uint256 tokenId
+    ) internal returns (uint256) {
+        _monkeyIds.increment();
         uint256 monkeyId = _monkeyIds.current();
         _monkeys[monkeyId].sourceContract = IERC721(sourceContract);
         _monkeys[monkeyId].sourceTokenId = tokenId;
+        _reverseMonkeys[sourceContract][tokenId] = monkeyId;
         emit MonkeyRegister(sourceContract, tokenId, monkeyId);
-        _monkeyIds.increment();
+        return monkeyId;
     }
 
     // QUERY DATA
 
     function monkey(uint256 monkeyId) external view returns (Monkey memory) {
         return _monkeys[monkeyId];
+    }
+
+    function reverseMonkey(
+        address sourceContract,
+        uint256 tokenId
+    ) external view returns (uint256) {
+        return _reverseMonkeys[sourceContract][tokenId];
     }
 
     function monkeyOwner(uint256 monkeyId) public view returns (address) {
