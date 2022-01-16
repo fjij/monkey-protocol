@@ -4,7 +4,8 @@
   "scripts": {
     "compile": "npx hardhat compile",
     "network": "npx hardhat node",
-    "deploy": "npx hardhat run scripts/deploy.ts --network localhost"
+    "deploy": "npx hardhat run scripts/deploy.ts --network localhost",
+    "upload": "npx ts-node scripts/upload.ts"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
@@ -14,6 +15,7 @@
     "@typechain/ethers-v5": "^7.0.1",
     "@typechain/hardhat": "^2.3.0",
     "@types/chai": "^4.2.21",
+    "@types/fs-extra": "^9.0.13",
     "@types/mocha": "^9.0.0",
     "@types/node": "^12.0.0",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
@@ -38,5 +40,9 @@
     "ts-node": "^10.1.0",
     "typechain": "^5.1.2",
     "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "nft.storage": "^5.2.0"
   }
 }
