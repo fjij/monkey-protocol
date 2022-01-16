@@ -64,6 +64,17 @@ export async function deploy(log: boolean = true) {
   };
 }
 
+async function copyAbis() {
+  [
+    "MonkeyActions",
+    "MonkeyProtocol",
+    "MonkeyRegistry",
+  ].forEach((name) => fs.copyFileSync(
+    path.join(__dirname, `../artifacts/contracts/${name}.sol/${name}.json`),
+    path.join(__dirname, `../../frontend/src/abis/${name}.json`),
+  ));
+}
+
 async function main() {
   const { monkeyActions, monkeyRegistry, monkeyProtocol } = await deploy(true);
 
@@ -77,11 +88,17 @@ async function main() {
     2
   );
   const networkName = hardhat.network.name;
-  const filename =
-    networkName === "hardhat" || networkName === "localhost"
-      ? `${networkName}.json`
-      : `${networkName}-${Date.now()}.json`;
-  fs.writeFileSync(path.join(__dirname, "../../deployments", filename), data);
+
+  const filename = (networkName === "hardhat" || networkName === "localhost") ?
+    `${networkName}.json` :
+    `${networkName}-${Date.now()}.json`;
+  fs.writeFileSync(path.join(
+    __dirname,
+    "../../frontend/src/deployments",
+    filename
+  ), data);
+
+  await copyAbis();
 }
 
 main().catch((error) => {
