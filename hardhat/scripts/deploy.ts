@@ -18,10 +18,19 @@ async function main() {
     1
   );
   await monkeyRegistry.deployed();
-  console.log("MonkeyRegistry deployed to:", monkeyProtocol.address);
+  console.log("MonkeyRegistry deployed to:", monkeyRegistry.address);
 
   await monkeyProtocol.grantRole(PROTOCOL, monkeyRegistry.address);
   console.log("PROTOCOL granted to MonkeyProtocol");
+
+  // MonkeyActions
+  const MonkeyActions = await ethers.getContractFactory("MonkeyActions");
+  const monkeyActions = await MonkeyActions.deploy(monkeyProtocol.address);
+  await monkeyActions.deployed();
+  console.log("MonkeyActions deployed to:", monkeyActions.address);
+
+  await monkeyProtocol.grantRole(PROTOCOL, monkeyActions.address);
+  console.log("PROTOCOL granted to MonkeyActions");
 }
 
 main().catch((error) => {
