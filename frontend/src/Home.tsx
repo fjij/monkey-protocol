@@ -1,4 +1,4 @@
-import { Signer } from "ethers";
+import { BigNumber, Signer } from "ethers";
 import { useBananas, useMonkey } from "./hooks";
 import "./Home.css";
 import { formatEther } from "ethers/lib/utils";
@@ -9,9 +9,10 @@ import Background from "./assets/background.png";
 interface HomeProps {
   signer: Signer;
   monkeyId: number;
+  setMonkeyId: (monkeyId: number) => void;
 }
 
-export default function Home({ signer, monkeyId }: HomeProps) {
+export default function Home({ signer, monkeyId, setMonkeyId }: HomeProps) {
 
   const monkey = useMonkey(monkeyId, signer);
   const bananas = useBananas(signer);
@@ -41,7 +42,16 @@ export default function Home({ signer, monkeyId }: HomeProps) {
               <b>Energy: { formatEther(monkey.stats.energy) }</b>
             </>}
           </span> }
-          <Link to="/adopt" className="Home-button">🐒</Link>
+          <button onClick={async () => {
+            if (monkey.monkeyRegistry) {
+              const tx = await monkey.monkeyRegistry.adopt();
+              const receipt = await tx.wait();
+              const id = receipt.events
+                ?.filter((e) => e.event === "MonkeyRegister")[0]
+                .args?.monkeyId as BigNumber;
+              setMonkeyId(id.toNumber());
+            }
+          }} className="Home-button">🐒</button>
           <Link to="/expedition" className="Home-button">✈️</Link>
         </div>
       </div>
