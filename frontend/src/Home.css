@@ -6,10 +6,31 @@
 .Home-monkey-away {
   margin-top: 180px;
   margin-bottom: 180px;
+  color: #e0e0e0;
 }
 
 .Home {
   text-align: center;
+}
+
+.Home-button {
+  margin: 30px;
+  padding-top: 10px;
+  border-width: 0px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 30px;
+  background-color: #F8D660;
+  display: inline-block;
+  font-size: 48px;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  color: black;
+}
+
+.Home-button:hover {
+  background-color: #c2a746;
 }
 
 .Home-monkey-details {
@@ -37,4 +58,7 @@
   border-radius: 30px;
   background-color: #F8D660;
   display: inline-block;
+}
+
+.Home-bottom {
 }

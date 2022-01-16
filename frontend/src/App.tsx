@@ -35,8 +35,11 @@ function App() {
         <Route path="/expedition">
           <Expedition signer={signer} monkeyId={monkeyId} />
         </Route>
-        <Route path="/">
+        <Route path="/daycare">
           <Daycare signer={signer} monkeyId={monkeyId} />
+        </Route>
+        <Route path="/">
+          <Home signer={signer} monkeyId={monkeyId} setMonkeyId={setMonkeyId}/>
         </Route>
       </Switch>
     </Router>

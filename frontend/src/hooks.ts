@@ -116,5 +116,7 @@ export function useMonkey(monkeyId: number, signer: Signer) {
       setExpedition(undefined);
       setDaycare(undefined);
     },
+    monkeyRegistry,
+    monkeyActions,
   };
 }
