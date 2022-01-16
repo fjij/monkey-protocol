@@ -33,7 +33,7 @@ export default function Home({ signer, monkeyId, setMonkeyId }: HomeProps) {
           <br />
         </div> }
         <div className="Home-bottom">
-          <Link to="/" className="Home-button">📈</Link>
+          <Link to="/daycare" className="Home-button">🛏️</Link>
           <Link to="/feed" className="Home-button">🍕</Link>
           { monkey.nft && <span className="Home-monkey-details">
             <h1>{monkey.nft.name}</h1>
