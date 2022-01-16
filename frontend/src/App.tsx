@@ -8,6 +8,7 @@ import { Signer } from "ethers";
 import FullscreenMessage from "./FullscreenMessage";
 import Expedition from "./Expedition";
 import Feed from "./Feed";
+import Daycare from "./Daycare";
 
 function App() {
   const [signer, setSigner] = useState<Signer>();
@@ -37,6 +38,9 @@ function App() {
         </Route>
         <Route path="/feed">
           <Feed signer={signer} monkeyId={monkeyId} />
+        </Route>
+        <Route path="/daycare">
+          <Daycare signer={signer} monkeyId={monkeyId} />
         </Route>
         <Route path="/">
           <Home signer={signer} monkeyId={monkeyId} setMonkeyId={setMonkeyId} />

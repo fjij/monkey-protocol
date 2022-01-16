@@ -20,14 +20,14 @@ import axios from "axios";
 function useContract(
   signer: ethers.Signer | undefined,
   address: string | undefined,
-  abi: any,
+  abi: any
 ) {
   const [contract, setContract] = useState<ethers.Contract>();
   useEffect(() => {
     if (address) {
       setContract(new ethers.Contract(address, abi, signer));
     }
-  }, [signer, address, abi])
+  }, [signer, address, abi]);
   return contract;
 }
 
@@ -40,9 +40,11 @@ interface NftMetadata {
 export function useNft(
   signer: ethers.Signer | undefined,
   address?: string,
-  tokenId?: BigNumber,
+  tokenId?: BigNumber
 ) {
-  const nft = useContract(signer, address, IERC721MetadataData.abi) as IERC721Metadata | undefined;
+  const nft = useContract(signer, address, IERC721MetadataData.abi) as
+    | IERC721Metadata
+    | undefined;
   const [metadata, setMetadata] = useState<NftMetadata>();
   useEffect(() => {
     if (nft && tokenId) {

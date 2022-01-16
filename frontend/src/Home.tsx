@@ -5,6 +5,7 @@ import { formatEther } from "ethers/lib/utils";
 import { Link } from "react-router-dom";
 
 import Background from "./assets/background.png";
+import Bananas from "./Bananas";
 
 interface HomeProps {
   signer: Signer;
@@ -23,9 +24,7 @@ export default function Home({ signer, monkeyId, setMonkeyId }: HomeProps) {
         className="L-background"
         style={{ backgroundImage: `url(${Background})` }}
       >
-        { bananas && <div className="Home-bananas">
-          <h1>{bananas.amount} 🍌</h1>
-        </div> }
+        { bananas && <Bananas amount={bananas.amount} /> }
         { monkey.nft && <div className="Home-monkey">
           { !(monkey.stats?.busy) ? <img src={monkey.nft!.image} />
             :  <h1 className="Home-monkey-away">Away</h1>
