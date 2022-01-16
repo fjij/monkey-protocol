@@ -1,0 +1,40 @@
+.Home-monkey img {
+  width: 400px;
+  height: 400px;
+}
+
+.Home-monkey-away {
+  margin-top: 180px;
+  margin-bottom: 180px;
+}
+
+.Home {
+  text-align: center;
+}
+
+.Home-monkey-details {
+  margin: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 30px;
+  background-color: #F8D660;
+  display: inline-block;
+}
+
+.Home-bananas {
+  width: 100%;
+  text-align: right;
+}
+
+.Home-bananas h1 {
+  margin: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 30px;
+  background-color: #F8D660;
+  display: inline-block;
+}

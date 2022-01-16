@@ -32,7 +32,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/">
-          <Home signer={signer}/>
+          <Home signer={signer} />
         </Route>
       </Switch>
     </Router>

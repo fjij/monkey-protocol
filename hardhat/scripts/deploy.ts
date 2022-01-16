@@ -25,7 +25,7 @@ export async function deploy(log: boolean = true) {
   const MonkeyRegistry = await ethers.getContractFactory("MonkeyRegistry");
   const monkeyRegistry = await MonkeyRegistry.deploy(
     monkeyProtocol.address,
-    "ifps://bafybeiari7csbdg3gfgc7l3eocrj5lkepgfguqpsvfvpvt6xrppeahxuby/",
+    "ipfs://bafybeiari7csbdg3gfgc7l3eocrj5lkepgfguqpsvfvpvt6xrppeahxuby/",
     8
   );
   await monkeyRegistry.deployed();
@@ -73,6 +73,11 @@ async function copyAbis() {
     path.join(__dirname, `../artifacts/contracts/${name}.sol/${name}.json`),
     path.join(__dirname, `../../frontend/src/abis/${name}.json`),
   ));
+
+  fs.copyFileSync(
+    path.join(__dirname, '../artifacts/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol/IERC721Metadata.json'),
+    path.join(__dirname, `../../frontend/src/abis/IERC721Metadata.json`),
+  );
 }
 
 async function main() {
