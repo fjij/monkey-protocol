@@ -7,6 +7,7 @@ config();
 
 function readDirectory(dir: string): File[] {
   const names = getAllFilesSync(dir).toArray().map((name) => name.substring(dir.length));
+  console.log(names);
   return names.map(
     (name) =>
       new File([fs.readFileSync(path.join(dir, name)) as BlobPart], name)

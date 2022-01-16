@@ -13,7 +13,7 @@ import Daycare from "./Daycare";
 function App() {
   const [signer, setSigner] = useState<Signer>();
   const [chainId, setChainId] = useState<number>();
-  const [monkeyId, setMonkeyId] = useStoredState<number>("monkeyId", 1);
+  const [monkeyId, setMonkeyId] = useStoredState<number>("monkeyId", 0);
 
   useEffect(() => {
     signer?.getChainId().then(setChainId);
