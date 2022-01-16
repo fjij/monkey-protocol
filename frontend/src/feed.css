@@ -1,0 +1,86 @@
+.feed-wrapper {
+  display: grid;
+  place-items: center;
+}
+
+.feed-title {
+  justify-content: center;
+  line-height: 25px;
+  display: flex;
+  background: #d8d8d8;
+  box-shadow: 0px 8px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  line-height: 25px;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  padding: 10px 40px 10px 40px;
+  background: #dcaf6b;
+  margin-bottom: 15px;
+  margin-top: 50px;
+}
+
+.feed-wrapper h3 {
+  border-radius: 10px;
+  background: #d8d8d8;
+  padding: 10px 20px 10px 20px;
+  color: black;
+  margin: 8px;
+}
+
+.feed-wrapper img {
+  width: 100px;
+  height: fit-content;
+  margin-right: 15px;
+  background-color: #f8d660;
+  padding: 10px;
+  border-radius: 25px;
+}
+
+.feed-stats {
+  display: flex;
+  text-align: left;
+  align-items: center;
+}
+
+.feed-tokens {
+  display: flex;
+  text-align: center;
+  flex-direction: row;
+}
+
+#token-input {
+  width: 180px;
+}
+
+#arrow {
+  width: 20px;
+}
+
+#energy-added {
+  width: 150px;
+  color: white;
+  background-color: #2a9e4b;
+  border-radius: 10px;
+  height: 45px;
+  border-width: 0px;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  transition-duration: 0.4s;
+  border: 8px;
+}
+
+#energy-added:hover {
+  background-color: #19662f;
+}
+
+.feed-details {
+  display: flex;
+  gap: 10px;
+}
+
+.feed-top-buttons h3 {
+  width: 460px;
+}

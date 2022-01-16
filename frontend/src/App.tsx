@@ -7,6 +7,7 @@ import { useStoredState } from "./hooks";
 import { Signer } from "ethers";
 import FullscreenMessage from "./FullscreenMessage";
 import Expedition from "./Expedition";
+import Feed from "./Feed";
 
 function App() {
   const [signer, setSigner] = useState<Signer>();
@@ -32,10 +33,13 @@ function App() {
     <Router>
       <Switch>
         <Route path="/expedition">
-          <Expedition signer={signer} monkeyId={monkeyId}/>
+          <Expedition signer={signer} monkeyId={monkeyId} />
+        </Route>
+        <Route path="/feed">
+          <Feed signer={signer} monkeyId={monkeyId} />
         </Route>
         <Route path="/">
-          <Home signer={signer} monkeyId={monkeyId} setMonkeyId={setMonkeyId}/>
+          <Home signer={signer} monkeyId={monkeyId} setMonkeyId={setMonkeyId} />
         </Route>
       </Switch>
     </Router>
