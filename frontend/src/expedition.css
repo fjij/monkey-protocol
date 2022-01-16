@@ -19,10 +19,9 @@
 }
 
 .exp-locations {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  place-items: center;
-  grid-row-gap: 20px;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
 }
 
 .location-background {
@@ -35,10 +34,7 @@
   transition-duration: 0.4s;
   display: grid;
   place-items: center;
-}
-
-.location-background:hover {
-  background: #9e852c;
+  background-size: cover;
 }
 
 #info {
@@ -67,4 +63,26 @@
   border-radius: 10px;
   padding: 5px 10px 5px 10px;
   width: 300px;
+}
+
+.purple-button {
+  text-align: center;
+  background-color: #5ea3f1;
+  border: black;
+  color: black;
+  padding: 13px 28px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition-duration: 0.3s;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+.purple-button:hover {
+  background-color: #4985c9;
+}
+
+.purple-button:disabled {
+  background-color: #2e5078;
 }

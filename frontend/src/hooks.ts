@@ -21,7 +21,7 @@ export function useStoredState<T>(key: string, defaultValue: T) {
   return [value, setValue] as [T, React.Dispatch<React.SetStateAction<T>>];
 }
 
-interface Monkey {
+export interface Monkey {
   sourceContract: string;
   sourceTokenId: BigNumber;
 }
@@ -50,19 +50,19 @@ export function useBananas(signer: Signer) {
   };
 }
 
-interface MonkeyStats {
+export interface MonkeyStats {
   energy: BigNumber;
   xp: BigNumber;
   busy: boolean;
 }
 
-interface MonkeyExpedition {
+export interface MonkeyExpedition {
   ends: BigNumber;
   area: number;
   ongoing: boolean;
 }
 
-interface MonkeyDaycare {
+export interface MonkeyDaycare {
   started: BigNumber;
   ongoing: boolean;
 }
