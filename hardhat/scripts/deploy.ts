@@ -1,14 +1,22 @@
 import { ethers } from "hardhat";
 
-async function main() {
+export async function deploy(log: boolean = true) {
+  const [owner] = await ethers.getSigners();
 
   // MonkeyProtocol
   const MonkeyProtocol = await ethers.getContractFactory("MonkeyProtocol");
   const monkeyProtocol = await MonkeyProtocol.deploy();
   await monkeyProtocol.deployed();
-  console.log("MonkeyProtocol deployed to:", monkeyProtocol.address);
+  if (log) {
+    console.log("MonkeyProtocol deployed to:", monkeyProtocol.address);
+  }
 
   const PROTOCOL = await monkeyProtocol.PROTOCOL();
+
+  await monkeyProtocol.grantRole(PROTOCOL, owner.address);
+  if (log) {
+    console.log("PROTOCOL granted to owner");
+  }
 
   // MonkeyRegistry
   const MonkeyRegistry = await ethers.getContractFactory("MonkeyRegistry");
@@ -18,19 +26,47 @@ async function main() {
     1
   );
   await monkeyRegistry.deployed();
-  console.log("MonkeyRegistry deployed to:", monkeyRegistry.address);
+  if (log) {
+    console.log("MonkeyRegistry deployed to:", monkeyRegistry.address);
+  }
 
   await monkeyProtocol.grantRole(PROTOCOL, monkeyRegistry.address);
-  console.log("PROTOCOL granted to MonkeyProtocol");
+  if (log) {
+    console.log("PROTOCOL granted to MonkeyProtocol");
+  }
 
   // MonkeyActions
   const MonkeyActions = await ethers.getContractFactory("MonkeyActions");
   const monkeyActions = await MonkeyActions.deploy(monkeyProtocol.address);
   await monkeyActions.deployed();
-  console.log("MonkeyActions deployed to:", monkeyActions.address);
+  if (log) {
+    console.log("MonkeyActions deployed to:", monkeyActions.address);
+  }
 
   await monkeyProtocol.grantRole(PROTOCOL, monkeyActions.address);
-  console.log("PROTOCOL granted to MonkeyActions");
+  if (log) {
+    console.log("PROTOCOL granted to MonkeyActions");
+  }
+
+  await monkeyActions.setRegistry(monkeyRegistry.address);
+  if (log) {
+    console.log("MonkeyActions registry set");
+  }
+
+  return {
+    owner,
+    monkeyProtocol,
+    monkeyRegistry,
+    monkeyActions,
+  }
+}
+
+
+async function main() {
+  await deploy(true);
+
+
+
 }
 
 main().catch((error) => {

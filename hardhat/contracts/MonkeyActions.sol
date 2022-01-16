@@ -17,7 +17,10 @@ contract MonkeyActions {
     uint256 private constant DECIMALS = 10 ** 18;
 
     modifier onlyProtocol {
-        require(_monkeyProtocol.hasRole(PROTOCOL, msg.sender));
+        require(
+            _monkeyProtocol.hasRole(PROTOCOL, msg.sender),
+            "only protocol"
+        );
         _;
     }
 
@@ -129,9 +132,15 @@ contract MonkeyActions {
     function startExpedition(
         uint256 monkeyId,
         ExpeditionArea area
-    ) external canAction(monkeyId) {
-        require(_monkeyStats[monkeyId].xp >= _expeditions[area].xp);
-        require(_monkeyStats[monkeyId].energy >= _expeditions[area].energy);
+    ) external onlyOwner(monkeyId) canAction(monkeyId) {
+        require(
+            _monkeyStats[monkeyId].xp >= _expeditions[area].xp,
+            "not enough xp"
+        );
+        require(
+            _monkeyStats[monkeyId].energy >= _expeditions[area].energy,
+            "not enough energy"
+        );
         _monkeyStats[monkeyId].energy -= _expeditions[area].energy;
         emit MonkeyDrain(monkeyId, _expeditions[area].energy);
 
@@ -143,9 +152,14 @@ contract MonkeyActions {
         _monkeyStats[monkeyId].busy = true;
     }
 
-    function endExpedition(uint256 monkeyId) external onlyOwner(monkeyId) {
+    function endExpedition(
+        uint256 monkeyId
+    ) external onlyOwner(monkeyId) {
         require(_monkeyExpeditions[monkeyId].ongoing, "not on expedition");
-        require(block.timestamp > _monkeyExpeditions[monkeyId].ends, "not done");
+        require(
+            block.timestamp > _monkeyExpeditions[monkeyId].ends,
+            "not done"
+        );
         _monkeyExpeditions[monkeyId].ongoing = false;
         _monkeyStats[monkeyId].busy = false;
         _monkeyProtocol.mint(
@@ -177,13 +191,17 @@ contract MonkeyActions {
         return XP_PER_TIME * duration;
     }
 
-    function startDaycare(uint256 monkeyId) external canAction(monkeyId) {
+    function startDaycare(
+        uint256 monkeyId
+    ) external onlyOwner(monkeyId) canAction(monkeyId) {
         _monkeyStats[monkeyId].busy = true;
         _monkeyDaycares[monkeyId].started = block.timestamp;
         _monkeyDaycares[monkeyId].ongoing = true;
     }
 
-    function endDaycare(uint256 monkeyId) external onlyOwner(monkeyId) {
+    function endDaycare(
+        uint256 monkeyId
+    ) external onlyOwner(monkeyId) {
         require(_monkeyDaycares[monkeyId].ongoing, "not in daycare");
         _monkeyDaycares[monkeyId].ongoing = false;
         _monkeyStats[monkeyId].busy = false;
@@ -207,9 +225,10 @@ contract MonkeyActions {
     function feedBanana(
         uint256 monkeyId,
         uint256 amount
-    ) external canAction(monkeyId) {
+    ) external onlyOwner(monkeyId) canAction(monkeyId) {
         _monkeyProtocol.burn(msg.sender, amount);
         _monkeyStats[monkeyId].energy += energyForBanana(amount);
+        emit MonkeyEnergy(monkeyId, energyForBanana(amount));
     }
 
     uint256 public constant ENERGY_PER_ETH = 10 ** 6;
@@ -220,7 +239,8 @@ contract MonkeyActions {
 
     function feedEth(
         uint256 monkeyId
-    ) external payable onlyOwner(monkeyId) {
+    ) external payable canAction(monkeyId) canAction(monkeyId) {
         _monkeyStats[monkeyId].energy += energyForEth(msg.value);
+        emit MonkeyEnergy(monkeyId, energyForEth(msg.value));
     }
 }
