@@ -25,8 +25,8 @@ export async function deploy(log: boolean = true) {
   const MonkeyRegistry = await ethers.getContractFactory("MonkeyRegistry");
   const monkeyRegistry = await MonkeyRegistry.deploy(
     monkeyProtocol.address,
-    "ifps://",
-    1
+    "ifps://bafybeiari7csbdg3gfgc7l3eocrj5lkepgfguqpsvfvpvt6xrppeahxuby/",
+    8
   );
   await monkeyRegistry.deployed();
   if (log) {
@@ -61,26 +61,44 @@ export async function deploy(log: boolean = true) {
     monkeyProtocol,
     monkeyRegistry,
     monkeyActions,
-  }
+  };
+}
+
+async function copyAbis() {
+  [
+    "MonkeyActions",
+    "MonkeyProtocol",
+    "MonkeyRegistry",
+  ].forEach((name) => fs.copyFileSync(
+    path.join(__dirname, `../artifacts/contracts/${name}.sol/${name}.json`),
+    path.join(__dirname, `../../frontend/src/abis/${name}.json`),
+  ));
 }
 
 async function main() {
-  const {
-    monkeyActions,
-    monkeyRegistry,
-    monkeyProtocol
-  } = await deploy(true);
+  const { monkeyActions, monkeyRegistry, monkeyProtocol } = await deploy(true);
 
-  const data = JSON.stringify({
-    monkeyActions: monkeyActions.address,
-    monkeyRegistry: monkeyRegistry.address,
-    monkeyProtocol: monkeyProtocol.address,
-  }, null, 2);
+  const data = JSON.stringify(
+    {
+      monkeyActions: monkeyActions.address,
+      monkeyRegistry: monkeyRegistry.address,
+      monkeyProtocol: monkeyProtocol.address,
+    },
+    null,
+    2
+  );
   const networkName = hardhat.network.name;
+
   const filename = (networkName === "hardhat" || networkName === "localhost") ?
     `${networkName}.json` :
     `${networkName}-${Date.now()}.json`;
-  fs.writeFileSync(path.join(__dirname, "../../deployments", filename), data);
+  fs.writeFileSync(path.join(
+    __dirname,
+    "../../frontend/src/deployments",
+    filename
+  ), data);
+
+  await copyAbis();
 }
 
 main().catch((error) => {
