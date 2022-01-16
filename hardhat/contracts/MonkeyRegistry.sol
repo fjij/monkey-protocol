@@ -21,11 +21,9 @@ contract MonkeyRegistry is ERC721 {
     struct Monkey {
         IERC721 sourceContract;
         uint256 sourceTokenId;
-        uint256 xp;
-        uint256 energy;
     }
 
-    Monkey[] private _monkeys;
+    mapping(uint256 => Monkey) private _monkeys;
 
     MonkeyProtocol private _monkeyProtocol;
 
@@ -116,28 +114,5 @@ contract MonkeyRegistry is ERC721 {
         ) == account || _monkeys[monkeyId].sourceContract.getApproved(
             _monkeys[monkeyId].sourceTokenId
         ) == account;
-    }
-
-    // MONKEY STATS
-
-    event MonkeyGainEnergy(uint256 monkeyId, uint256 amount, uint256 total);
-
-    function gainEnergy(uint256 monkeyId, uint256 amount) public onlyProtocol {
-        _monkeys[monkeyId].energy += amount;
-        emit MonkeyGainEnergy(monkeyId, amount, _monkeys[monkeyId].energy);
-    }
-
-    event MonkeyUseEnergy(uint256 monkeyId, uint256 amount, uint256 total);
-
-    function useEnergy(uint256 monkeyId, uint256 amount) public onlyProtocol {
-        _monkeys[monkeyId].energy -= amount;
-        emit MonkeyUseEnergy(monkeyId, amount, _monkeys[monkeyId].energy);
-    }
-
-    event MonkeyGainXp(uint256 monkeyId, uint256 amount, uint256 total);
-
-    function gainXp(uint256 monkeyId, uint256 amount) public onlyProtocol {
-        _monkeys[monkeyId].xp += amount;
-        emit MonkeyGainXp(monkeyId, amount, _monkeys[monkeyId].xp);
     }
 }
