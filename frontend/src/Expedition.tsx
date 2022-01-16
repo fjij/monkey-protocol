@@ -19,7 +19,8 @@ interface LocationProps {
   name: String;
   time: String;
   energy: String;
-  canExplore: boolean;
+  enoughEnergy: boolean;
+  enoughXp: boolean;
   banana: String;
   xp: String;
   img?: string;
@@ -92,10 +93,8 @@ export default function Expedition({ signer, monkeyId }: ExpeditionProps) {
               banana={formatEther(expeditions[0].bananas)}
               xp={formatEther(expeditions[0].xp)}
               area={0}
-              canExplore={
-                monkey.stats.energy.gte(expeditions[0].energy) &&
-                monkey.stats.xp.gte(expeditions[0].xp)
-              }
+              enoughEnergy={monkey.stats.energy.gte(expeditions[0].energy)}
+              enoughXp={monkey.stats.xp.gte(expeditions[0].xp)}
               onExplore={() => onExplore(0)}
               onReturn={onReturn}
               context={monkey.expedition}
@@ -107,10 +106,8 @@ export default function Expedition({ signer, monkeyId }: ExpeditionProps) {
               energy={formatEther(expeditions[1].energy)}
               banana={formatEther(expeditions[1].bananas)}
               xp={formatEther(expeditions[1].xp)}
-              canExplore={
-                monkey.stats.energy.gte(expeditions[1].energy) &&
-                monkey.stats.xp.gte(expeditions[1].xp)
-              }
+              enoughEnergy={monkey.stats.energy.gte(expeditions[1].energy)}
+              enoughXp={monkey.stats.xp.gte(expeditions[1].xp)}
               context={monkey.expedition}
               onExplore={() => onExplore(0)}
               onReturn={onReturn}
@@ -134,7 +131,8 @@ function Location({
   context,
   area,
   onExplore,
-  canExplore,
+  enoughEnergy,
+  enoughXp,
   onReturn,
 }: LocationProps) {
   return (
@@ -144,15 +142,15 @@ function Location({
           <h3 className="location-name">{name}</h3>
         </div>
         <div className="stats">
-          <h4 className="info">Min xp required: {xp}</h4>
           <h4 className="info">Time: {time} minutes</h4>
-          <h4 className="info">Consume: {energy} energy</h4>
           <h4 className="info">Obtain: {banana} bananas</h4>
+          <h4 className={"info" + ((!context.ongoing && enoughXp) ? "" : " red")}>Min xp required: {xp}</h4>
+          <h4 className={"info" + ((!context.ongoing && enoughEnergy) ? "" : " red")}>Consume: {energy} energy</h4>
         </div>
         { !context.ongoing &&
           <button
             className="purple-button"
-            disabled={!canExplore}
+            disabled={!enoughXp || !enoughEnergy}
             onClick={onExplore}
           >Explore</button>
         }

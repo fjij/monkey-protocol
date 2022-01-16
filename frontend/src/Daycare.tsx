@@ -23,7 +23,6 @@ export default function Daycare({ signer, monkeyId }: DayCareProps) {
         <div className="daycare-stats">
           <h3>{monkey.nft?.name?.toUpperCase()}</h3>
           {monkey.stats && <h3>Total XP: {formatEther(monkey.stats.xp)}</h3>}
-          {monkey.stats && <h3>Total Energy: {formatEther(monkey.stats.energy)}</h3>}
         </div>
         <div className="parent">
           <img id="bed" src={Bed} />

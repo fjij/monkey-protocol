@@ -3,6 +3,10 @@
   height: 400px;
 }
 
+.Home-monkey {
+  margin-top: 250px;
+}
+
 .Home-monkey-away {
   margin-top: 180px;
   margin-bottom: 180px;
@@ -29,6 +33,10 @@
   color: black;
 }
 
+.red {
+  color: red;
+}
+
 .Home-button:hover {
   background-color: #c2a746;
 }
@@ -47,6 +55,7 @@
 .Home-bananas {
   width: 100%;
   text-align: right;
+  height: 0px;
 }
 
 .Home-bananas h1 {
