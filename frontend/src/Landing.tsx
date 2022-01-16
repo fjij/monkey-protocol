@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import backgroundImage from "./assets/landing.png";
 import "./landing.css";
+import ConnectWallet from "./ConnectWallet";
 
 export function Landing() {
   return (
@@ -16,7 +17,7 @@ export function Landing() {
           </h3>
         </div>
         <div className="buttons">
-          <button>Launch App</button>
+          <ConnectWallet onConnected={() => {}} />
         </div>
       </div>
     </>
