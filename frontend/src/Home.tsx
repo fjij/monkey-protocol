@@ -1,13 +1,13 @@
 import { Signer } from "ethers";
-import { useBananas, useMonkey, useStoredState } from "./hooks";
+import { useBananas, useMonkey } from "./hooks";
 import "./Home.css";
 
 interface HomeProps {
   signer: Signer;
+  monkeyId: number;
 }
 
-export default function Home({ signer }: HomeProps) {
-  const [monkeyId, setMonkeyId] = useStoredState<number>("monkeyId", 1);
+export default function Home({ signer, monkeyId }: HomeProps) {
 
   const monkey = useMonkey(monkeyId, signer);
   const bananas = useBananas(signer);
