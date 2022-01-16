@@ -23,6 +23,10 @@ export default function ConnectWallet({ onConnected }: ConnectWalletProps) {
           const provider = new ethers.providers.Web3Provider(instance);
           onConnected(provider.getSigner());
         });
+        instance.on("accountsChanged", () => {
+          const provider = new ethers.providers.Web3Provider(instance);
+          onConnected(provider.getSigner());
+        });
         const provider = new ethers.providers.Web3Provider(instance);
         onConnected(provider.getSigner());
       }}
