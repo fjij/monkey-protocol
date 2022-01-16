@@ -1,19 +1,12 @@
 import "./landing.css";
 import ConnectWallet from "./ConnectWallet";
-import { useMonkeyRegistry } from "./contracts";
-import { useEffect, useState } from "react";
-import {Signer} from "ethers";
+import { Signer } from "ethers";
 
-export function Landing() {
-  const [signer, setSigner] = useState<Signer>()
-  const registry = useMonkeyRegistry(signer);
+interface LandingProps {
+  onConnected: (signer: Signer) => void;
+}
 
-  useEffect(() => {
-    if (registry) {
-      registry.adopt();
-    }
-  }, [registry])
-
+export function Landing({ onConnected }: LandingProps) {
   return (
     <>
       <div className="title">
@@ -25,7 +18,7 @@ export function Landing() {
           </h3>
         </div>
         <div className="buttons">
-          <ConnectWallet onConnected={(signer) => {setSigner(signer)}} />
+          <ConnectWallet onConnected={onConnected} />
         </div>
       </div>
     </>
