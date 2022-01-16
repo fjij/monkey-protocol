@@ -31,6 +31,7 @@ contract MonkeyActions {
 
     constructor(address monkeyProtocol) {
         _monkeyProtocol = MonkeyProtocol(monkeyProtocol);
+        _initExpeditions();
     }
 
     event SetRegistry(address monkeyRegistry);
@@ -68,10 +69,6 @@ contract MonkeyActions {
     // ACTIONS
 
     modifier canAction(uint256 monkeyId) {
-        require(
-            _monkeyRegistry.isMonkeyApproved(monkeyId, msg.sender),
-            "not your monkey"
-        );
         require(!_monkeyStats[monkeyId].busy, "monkey busy");
         _;
     }
@@ -81,6 +78,36 @@ contract MonkeyActions {
     enum ExpeditionArea {
         School,
         Arctic
+    }
+
+    struct Expedition {
+        uint256 duration;
+        uint256 energy;
+        uint256 xp;
+        uint256 bananas;
+    }
+
+    mapping(ExpeditionArea => Expedition) private _expeditions;
+
+    function expedition(
+        ExpeditionArea area
+    ) external view returns (Expedition memory) {
+        return _expeditions[area];
+    }
+
+    function _initExpeditions() internal {
+        _expeditions[ExpeditionArea.School] = Expedition(
+            8 seconds,
+            8 * DECIMALS,
+            0 * DECIMALS,
+            10 * DECIMALS
+        );
+        _expeditions[ExpeditionArea.Arctic] = Expedition(
+            30 seconds,
+            30 * DECIMALS,
+            10 * DECIMALS,
+            50 * DECIMALS
+        );
     }
 
     struct MonkeyExpedition {
@@ -97,19 +124,23 @@ contract MonkeyActions {
         return _monkeyExpeditions[monkeyId];
     }
 
+    event MonkeyDrain(uint256 monkeyId, uint256 amount);
+
     function startExpedition(
         uint256 monkeyId,
         ExpeditionArea area
     ) external canAction(monkeyId) {
-        if (area == ExpeditionArea.School) {
-            _monkeyExpeditions[monkeyId].ends = block.timestamp + 8 seconds;
-        } else {
-            require(_monkeyStats[monkeyId].xp >= 10 * DECIMALS);
-            _monkeyExpeditions[monkeyId].ends = block.timestamp + 30 seconds;
-        }
-        _monkeyStats[monkeyId].busy = true;
+        require(_monkeyStats[monkeyId].xp >= _expeditions[area].xp);
+        require(_monkeyStats[monkeyId].energy >= _expeditions[area].energy);
+        _monkeyStats[monkeyId].energy -= _expeditions[area].energy;
+        emit MonkeyDrain(monkeyId, _expeditions[area].energy);
+
+        _monkeyExpeditions[monkeyId].ends =
+            block.timestamp + _expeditions[area].duration;
         _monkeyExpeditions[monkeyId].area = area;
         _monkeyExpeditions[monkeyId].ongoing = true;
+
+        _monkeyStats[monkeyId].busy = true;
     }
 
     function endExpedition(uint256 monkeyId) external onlyOwner(monkeyId) {
@@ -117,11 +148,10 @@ contract MonkeyActions {
         require(block.timestamp > _monkeyExpeditions[monkeyId].ends, "not done");
         _monkeyExpeditions[monkeyId].ongoing = false;
         _monkeyStats[monkeyId].busy = false;
-        if (_monkeyExpeditions[monkeyId].area == ExpeditionArea.School) {
-            _monkeyProtocol.mint(msg.sender, 10 * DECIMALS);
-        } else {
-            _monkeyProtocol.mint(msg.sender, 50 * DECIMALS);
-        }
+        _monkeyProtocol.mint(
+            msg.sender,
+            _expeditions[_monkeyExpeditions[monkeyId].area].bananas
+        );
     }
 
     // DAYCARE
