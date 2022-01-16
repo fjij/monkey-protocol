@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-import { abi as MonkeyProtocolAbi } from "../abis/MonkeyProtocol.json";
-import { abi as MonkeyActionsAbi } from "../abis/MonkeyActions.json";
-import { abi as MonkeyRegistryAbi } from "../abis/MonkeyRegistry.json";
+import MonkeyProtocolData from "../abis/MonkeyProtocol.json";
+import MonkeyActionsData from "../abis/MonkeyActions.json";
+import MonkeyRegistryData from "../abis/MonkeyRegistry.json";
 
 import type {
   MonkeyRegistry,
@@ -29,7 +29,7 @@ export function useMonkeyProtocol(signer: ethers.Signer | undefined) {
   return useContract(
     signer,
     deployment.monkeyProtocol,
-    MonkeyProtocolAbi
+    MonkeyProtocolData.abi
   ) as MonkeyProtocol;
 }
 
@@ -37,7 +37,7 @@ export function useMonkeyActions(signer: ethers.Signer | undefined) {
   return useContract(
     signer,
     deployment.monkeyActions,
-    MonkeyActionsAbi
+    MonkeyActionsData.abi
   ) as MonkeyActions;
 }
 
@@ -45,6 +45,6 @@ export function useMonkeyRegistry(signer: ethers.Signer | undefined) {
   return useContract(
     signer,
     deployment.monkeyRegistry,
-    MonkeyRegistryAbi
+    MonkeyRegistryData.abi
   ) as MonkeyRegistry;
 }

@@ -1,10 +1,19 @@
-import react from "react";
-import { ethers } from "ethers";
-import Web3Modal from "web3modal";
-import backgroundImage from "./assets/landing.png";
 import "./landing.css";
+import ConnectWallet from "./ConnectWallet";
+import { useMonkeyRegistry } from "./contracts";
+import { useEffect, useState } from "react";
+import {Signer} from "ethers";
 
 export function Landing() {
+  const [signer, setSigner] = useState<Signer>()
+  const registry = useMonkeyRegistry(signer);
+
+  useEffect(() => {
+    if (registry) {
+      registry.adopt();
+    }
+  }, [registry])
+
   return (
     <>
       <div className="title">
@@ -16,7 +25,7 @@ export function Landing() {
           </h3>
         </div>
         <div className="buttons">
-          <button>Launch App</button>
+          <ConnectWallet onConnected={(signer) => {setSigner(signer)}} />
         </div>
       </div>
     </>
